@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<character location.name="graveyard" location.x="800" location.y="475" posZ="0" rotate="0" roll="0">
+  <data name="character">
+    <data name="image">
+      <data type="image" name="imageIdentifier">13a9a27ab497619f3a24b9523f2bf303bbee7cb00875351dcc15ac449c6365c5</data>
+    </data>
+    <data name="common">
+      <data name="name">ネレイド</data>
+      <data name="size">1</data>
+    </data>
+    <data name="detail">
+      <data name="データ">
+        <data name="ヒット・ポイント" type="numberResource" currentValue="0">44</data>
+        <data name="イニシアチブ">16</data>
+      </data>
+      <data name="能力値">
+        <data name="【筋力】">10</data>
+        <data name="【敏捷力】">17</data>
+        <data name="【耐久力】">12</data>
+        <data name="【知力】">13</data>
+        <data name="【判断力】">14</data>
+        <data name="【魅力】">16</data>
+      </data>
+      <data name="セーヴィング・スロー">
+        <data name="【筋】セーヴ">0</data>
+        <data name="【敏】セーヴ">3</data>
+        <data name="【耐】セーヴ">1</data>
+        <data name="【知】セーヴ">1</data>
+        <data name="【判】セーヴ">2</data>
+        <data name="【魅】セーヴ">3</data>
+      </data>
+      <data name="アクション">
+        <data name="目つぶしの酸">
+          <data name="攻撃1">目つぶしの酸</data>
+          <data name="攻撃1修正">+5</data>
+          <data name="攻撃1ダメージ">2d12+3</data>
+          <data name="攻撃1D種別">[酸]</data>
+          <data name="攻撃1追加効果">目標は次のネレイドのターンの開始時まで盲目状態になる</data>
+        </data>
+        <data name="溺らかす接吻">
+          <data name="攻撃2">溺らかす接吻</data>
+          <data name="攻撃2修正">-</data>
+          <data name="攻撃2ダメージ">3d12+3</data>
+          <data name="攻撃2D種別">［酸］</data>
+          <data name="攻撃2追加効果">息が切れて1分間言葉を話せなくなる。STE</data>
+        </data>
+      </data>
+    </data>
+  </data>
+  <chat-palette dicebot="DungeonsAndDoragons">▼能力値判定
+1d20+(({【筋力】}-10)/2) {name}の【筋力】判定！
+1d20+(({【敏捷力】}-10)/2) {name}の【敏捷力】判定！
+1d20+(({【耐久力】}-10)/2) {name}の【耐久力】判定！
+1d20+(({【知力】}-10)/2) {name}の【知力】判定！
+1d20+(({【判断力】}-10)/2) {name}の【判断力】判定！
+1d20+(({【魅力】}-10)/2) {name}の【魅力】判定！
+▼技能判定
+1d20+{〈隠密〉} {name}の〈隠密〉判定！
+▼セーヴィング・スロー
+1d20+{【筋】セーヴ} {name}の【筋力】セーヴィング・スロー！
+1d20+{【敏】セーヴ} {name}の【敏捷力】セーヴィング・スロー！
+1d20+{【耐】セーヴ} {name}の【耐久力】セーヴィング・スロー！
+1d20+{【知】セーヴ} {name}の【知力】セーヴィング・スロー！
+1d20+{【判】セーヴ} {name}の【判断力】セーヴィング・スロー！
+1d20+{【魅】セーヴ} {name}の【魅力】セーヴィング・スロー！
+1d20&gt;=10 {name}の死亡セーヴィング・スロー！
+▼戦闘
+1d20+(({【敏捷力】}-10)/2)  {name}のイニシアチブ判定！
+▼攻撃1
+1d20+{攻撃1修正}　{name}の{攻撃1}攻撃！
+{攻撃1ダメージ} {name}の{攻撃1}{攻撃1D種別}ダメージ！ {攻撃1追加効果}
+▼攻撃2
+1d20+{攻撃2修正}　{name}の{攻撃2}攻撃！
+{攻撃2ダメージ} {name}の{攻撃2}{攻撃2D種別}ダメージ！ {攻撃2追加効果}
+</chat-palette>
+</character>

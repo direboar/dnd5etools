@@ -1,0 +1,19 @@
+{
+  "name": "dnd5etools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^4.0.1",
+    "axios": "^0.19.2",
+    "jsdom": "^16.2.2",
+    "libxmljs": "^0.19.7",
+    "xmlbuilder2": "^2.1.2",
+    "xmljson": "^0.2.0"
+  }
+}
