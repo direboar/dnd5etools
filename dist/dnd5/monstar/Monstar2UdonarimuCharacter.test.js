@@ -1,0 +1,41 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Monstar_1 = require("./Monstar");
+const Monstar2UdonarimuCharacter_1 = require("./Monstar2UdonarimuCharacter");
+const UdonariumCharacter2XML_1 = require("../../utils/UdonariumCharacter2XML");
+test('hello', () => {
+    const converter = new Monstar2UdonarimuCharacter_1.Monstar2UdonarimuCharacter();
+    const monster = new Monstar_1.Monstar();
+    monster.name = "名前";
+    monster.size = Monstar_1.Size.Large;
+    monster.hitPoint = 40;
+    monster.AC = 10;
+    monster.speed = "speed";
+    monster.STR = new Monstar_1.Ability(11, "+1", "+2");
+    monster.DEX = new Monstar_1.Ability(11, "+1", "+2");
+    monster.INT = new Monstar_1.Ability(11, "+1", "+2");
+    monster.CON = new Monstar_1.Ability(11, "+1", "+2");
+    monster.WIS = new Monstar_1.Ability(11, "+1", "+2");
+    monster.CHA = new Monstar_1.Ability(11, "+1", "+2");
+    const traits1 = new Monstar_1.TreatsAndAction("特徴１");
+    traits1.contents.push("111");
+    traits1.contents.push("222");
+    monster.treats.push(traits1);
+    const traits2 = new Monstar_1.TreatsAndAction("特徴2");
+    traits2.contents.push("aaa");
+    traits2.contents.push("bbb");
+    monster.treats.push(traits2);
+    const action1 = new Monstar_1.TreatsAndAction("アクション１");
+    action1.contents.push("aaa");
+    action1.contents.push("bbb");
+    monster.actions.push(action1);
+    const action2 = new Monstar_1.TreatsAndAction("アクション２");
+    action2.contents.push("111");
+    action2.contents.push("222");
+    monster.actions.push(action2);
+    const character = converter.convert(monster);
+    // console.log(JSON.stringify(character))
+    const xml = new UdonariumCharacter2XML_1.UdonariumCharacter2XML().buildXml(character);
+    console.log(xml);
+});
+//# sourceMappingURL=Monstar2UdonarimuCharacter.test.js.map
