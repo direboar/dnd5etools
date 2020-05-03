@@ -14,9 +14,13 @@ class Main {
 
         const monstar2UdonarimuCharacter = new Monstar2UdonarimuCharacter()
         for (const monstar of monstars) {
-            const udonariumCharacter = monstar2UdonarimuCharacter.convert(monstar)
-            const zipCreator = new CharacterZipFlieCreator(udonariumCharacter, monstar.imageUrl, outdir)
-            await zipCreator.createZipFile()
+            try{
+                const udonariumCharacter = monstar2UdonarimuCharacter.convert(monstar)
+                const zipCreator = new CharacterZipFlieCreator(udonariumCharacter, monstar.imageUrl, outdir)
+                await zipCreator.createZipFile()
+            }catch(error){
+                console.error(error)
+            }
         }
     }
 

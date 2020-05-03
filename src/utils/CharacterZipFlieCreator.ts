@@ -117,13 +117,16 @@ class CharacterZipFlieCreator {
     }
 
     public getZipFileName(): string {
-        return `${this.udonariumCharacter.common?.name}.zip`;
+        return this.formatFileName(`${this.udonariumCharacter.common?.name}.zip`);
     }
     public getXmlFileName(): string {
-        return `${this.udonariumCharacter.common?.name}.xml`;
+        return this.formatFileName(`${this.udonariumCharacter.common?.name}.xml`);
     }
     public getImageFileName(): string {
-        return `${this.getImageHashSHA256()}.${this.getExt()}`;
+        return this.formatFileName(`${this.getImageHashSHA256()}.${this.getExt()}`);
+    }
+    private formatFileName(org : string) : string {
+        return org.replace(/\//g,"")
     }
     private getExt(): string {
         if(this.imageUrl){
