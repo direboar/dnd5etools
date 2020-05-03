@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"npx ts-node ./src/dnd5/monstar/Main.ts",
+    "start": "npx ts-node ./src/dnd5/monstar/Main.ts",
     "test": "jest --env=node --no-cache"
   },
   "author": "",
@@ -14,6 +14,7 @@
     "@types/node": "^13.13.4",
     "archiver": "^4.0.1",
     "axios": "^0.19.2",
+    "fs-extra": "^9.0.0",
     "jest": "^25.5.4",
     "jsdom": "^16.2.2",
     "libxmljs": "^0.19.7",
