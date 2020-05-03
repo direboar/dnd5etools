@@ -147,11 +147,13 @@ class ScrapingMonsterJsonParser {
                 retVal.push(parseState.currentItem);
             }
         });
-
         parser.on("characters", function (chars: string) {
             if (!(chars.trim().length == 0) && (parseState.currentItem !== null)) {
                 if (parseState.isAbilitiName) {
-                    parseState.currentItem.name = chars;
+                    // 文章中にハイフンが入ると、charactersが複数回呼び出されることがある。
+                    // そのため、charactersが複数回呼び出された場合、前回格納した文字列にappendする処理を追加する。
+                    const name = parseState.currentItem.name;
+                    parseState.currentItem.name += chars
                 } else {
                     parseState.currentItem.contents.push(chars);
                 }
