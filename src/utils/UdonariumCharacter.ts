@@ -1,7 +1,7 @@
 
 
 class UdonariumCharacter {
-    public common: Common | null = null
+    public common: Common = new Common()
     public imageHashSHA256: string | null = null
     public details: Array<Detail> = []
     public chatpallette: ChatPallette | null = null
@@ -14,7 +14,7 @@ class UdonariumCharacter {
 class Common {
     public name: string
     public size: Number
-    constructor(name: string, size: Number) {
+    constructor(name : string = "" , size : Number = 0) {
         this.name = name
         this.size = size
     }

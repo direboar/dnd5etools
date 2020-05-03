@@ -6,7 +6,6 @@ const conf = require('config');
 class TranslateUtils {
 
     public async translate(text: string, source = "en", target = "ja"): Promise<string> {
-        console.log(conf.translate)
         if(!conf.translate.enable){
             return "翻訳は無効です"
         }
@@ -25,15 +24,5 @@ class TranslateUtils {
     }
 
 }
-
-
-function main(){
-    const util = new TranslateUtils()
-    util.translate("hello").then(text=>{
-        console.log(text)
-    })
-}
-
-main()
 
 export {TranslateUtils}

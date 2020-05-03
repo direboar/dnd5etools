@@ -8,17 +8,18 @@ var fsExtra = require('fs-extra');
 
 class Main {
     public async main(filePath = "./files/srd_5e_monsters.json", outdir = "./out/") {
-
         this.initOutDir(outdir)
         const monstars = new ScrapingMonsterJsonParser().parse(filePath)
 
         const monstar2UdonarimuCharacter = new Monstar2UdonarimuCharacter()
         for (const monstar of monstars) {
-            try{
-                const udonariumCharacter = monstar2UdonarimuCharacter.convert(monstar)
+            try {
+                // if(monstar.name === "Aboleth"){
+                const udonariumCharacter = await monstar2UdonarimuCharacter.convert(monstar)
                 const zipCreator = new CharacterZipFlieCreator(udonariumCharacter, monstar.imageUrl, outdir)
                 await zipCreator.createZipFile()
-            }catch(error){
+                // }
+            } catch (error) {
                 console.error(error)
             }
         }
