@@ -109,4 +109,4 @@ class ChatPallette {
     }
 }
 
-export { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource, ContainerItem, ChatPallette as Chatpallette };
+export { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource, ContainerItem, ChatPallette };

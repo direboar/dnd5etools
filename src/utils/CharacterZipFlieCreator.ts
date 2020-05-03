@@ -135,38 +135,5 @@ class CharacterZipFlieCreator {
     }
 
 }
-// async function compress(zipFileName, filenames) {
-//     var output = fs.createWriteStream(`./out/${zipFileName}`);
-//     const archive = archiver("zip", {
-//         zlib: { level: 9 }, // Sets the compression level.
-//     });
-//     archive.pipe(output);
-//     filenames.forEach((fileName) => {
-//     if (getExt(fileName) === "xml") {
-//             archive.append(fs.createReadStream(`./out/${fileName}`), {
-//                 name: fileName,
-//             });
-
-//         } else {
-//             //read binary.
-//             //https://stackoverflow.com/questions/33976205/nodejs-binary-fs-createreadstream-streamed-as-utf-8
-//             archive.append(fs.createReadStream(`./out/${fileName}`, { encoding: null }), {
-//                 name: fileName,
-//             });
-
-//         }
-//     });
-//     await archive.finalize();
-// }
-
-// private getExt(fileName) : string{
-//     const index = fileName.lastIndexOf(".")
-//     return fileName.substr(index + 1)
-// }
-// private getWithoutExt(fileName) : string{
-//     const index = fileName.lastIndexOf(".")
-//     return fileName.substr(0, index)
-// }
-
 
 export { CharacterZipFlieCreator }

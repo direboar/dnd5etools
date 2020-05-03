@@ -1,4 +1,4 @@
-import { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource, Chatpallette, ContainerItem } from "../../utils/UdonariumCharacter"
+import { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource, ChatPallette, ContainerItem } from "../../utils/UdonariumCharacter"
 import { Monstar, Size } from "./Monstar"
 
 class Monstar2UdonarimuCharacter {
@@ -72,17 +72,8 @@ class Monstar2UdonarimuCharacter {
             })
             udonariumCharacter.addDetail(regendaryAction)
         }
-        
-        // monster.actions.forEach(action => {
-        //     const actionItem = new ContainerItem(action.name);
-        //     action.contents.forEach((content, index) => {
-        //         actionItem.addDetailItem(new NormalResource(index.toString(), content));
-        //     })
-        //     actions.addDetailItem(actionItem)
-        // })
-        // udonariumCharacter.addDetail(actions)
 
-        const chatPallette = new Chatpallette("DungeonsAndDoragons", this.chatpalette())
+        const chatPallette = new ChatPallette("DungeonsAndDoragons", this.chatpalette())
         udonariumCharacter.chatpallette = chatPallette
 
         return udonariumCharacter;

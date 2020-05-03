@@ -1,7 +1,27 @@
-import { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource,ContainerItem, Chatpallette } from "./UdonariumCharacter"
+import { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource,ContainerItem, ChatPallette } from "./UdonariumCharacter"
 import {UdonariumCharacter2XML} from "./UdonariumCharacter2XML"
+import {CharacterZipFlieCreator} from "./CharacterZipFlieCreator"
 
-test('hello', () => {
+test('testBuildXml', () => {
+    
+    const character = createCharacter()
+    const actual = new UdonariumCharacter2XML().buildXml(character)
+console.log(actual)
+
+});
+
+test('testCharacterZipFIleCreator', async() => {
+    const creator = new CharacterZipFlieCreator(createCharacter(),"https://media-waterdeep.cursecdn.com/avatars/thumbnails/0/71/1000/1000/636252733510786769.jpeg")
+
+    // const ret = await creator.loadImage("https://media-waterdeep.cursecdn.com/avatars/thumbnails/0/71/1000/1000/636252733510786769.jpeg")
+
+    // const hash = creator.getImageHashSHA256()
+    // expect("f5815537cdd20f4b41e946f1c07a62158c9ec93611b991ec6a6c3e716f75d08c").toBe(hash)
+
+    await creator.createZipFile()
+})
+
+function createCharacter() : UdonariumCharacter{
     const charcter = new UdonariumCharacter();
     charcter.imageHashSHA256 = "AAAAAAAA"
     charcter.common = new Common("名前",2)
@@ -26,40 +46,7 @@ test('hello', () => {
     charcter.addDetail(detai2)
 
     const chatPalletteText = `▼能力値判定`;
-    const chatPallette = new Chatpallette("DungeonsAndDoragons",chatPalletteText)
+    const chatPallette = new ChatPallette("DungeonsAndDoragons",chatPalletteText)
     charcter.chatpallette = chatPallette
-    const actual = new UdonariumCharacter2XML().buildXml(charcter)
-console.log(actual)
-//     const expected = `<?xml version="1.0" encoding="UTF-8"?>
-// <character>
-//   <data name="character">
-//     <data name="image">
-//       <data name="imageIdentifier" type="image">AAAAAAAA</data>
-//     </data>
-//     <data name="common">
-//       <data name="name">名前</data>
-//       <data name="size">2</data>
-//     </data>
-//     <data name="detail">
-//       <data name="詳細1">
-//         <data name="リソース1">Content1</data>
-//         <data name="Note11" type="note">ノート&#13;
-// だよ</data>
-//         <data name="HP1" type="numberResource" currentValue="100">200</data>
-//       </data>
-//       <data name="詳細2">
-//         <data name="リソース2">Content2</data>
-//         <data name="Note12" type="note">ノート&#13;
-// だよ</data>
-//         <data name="HP2" type="numberResource" currentValue="100">200</data>
-//       </data>
-//     </data>
-//   </data>
-//   <chat-palette dicebot="DungeonsAndDoragons">▼能力値判定</chat-palette>
-// </character>`
-
-// console.log(expected)
-// console.log(actual)
-//     expect(expected).toBe(actual)
-
-});
+    return charcter
+}
