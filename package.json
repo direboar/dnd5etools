@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start":"npx ts-node ./src/dnd5/monstar/Main.ts",
     "test": "jest --env=node --no-cache"
   },
   "author": "",
