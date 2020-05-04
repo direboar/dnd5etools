@@ -10,7 +10,8 @@ class Monstar {
     public sence: string = ""
     public language: string = ""
     public challenges: string = ""
-    public skills : string = ""
+    public skills : Map<Skill,string> = new Map()
+    // public skills : string = ""
 
     public hitPoint: Number = 0
     public imageUrl: string = ""
@@ -28,6 +29,15 @@ class Monstar {
     public regendaryAction: RegendaryAction | null = null
 
     public attacks : Array<Attack> = []
+
+    public getSkill(skill : Skill) : string{
+        const retVal = this.skills.get(skill)
+        if(retVal){
+            return retVal
+        }else{
+            throw new Error('unreached')
+        }
+    }
 }
 
 class Ability {
@@ -78,5 +88,24 @@ enum Size {
     Huge = 3,
     Gargantuan = 4,
 }
-
-export { Monstar, Ability, TreatsAndAction, Size,RegendaryAction,Attack }
+enum Skill {
+    History = "History",
+    Perception = "Perception",
+    Medicine= "Medicine",
+    Religion= "Religion",
+    Stealth= "Stealth",
+    Persuasion= "Persuasion",
+    Insight= "Insight",
+    Deception= "Deception",
+    Arcana= "Arcana",
+    Athletics= "Athletics",
+    Acrobatics= "Acrobatics",
+    Survival= "Survival",
+    Investigation= "Investigation",
+    Nature= "Nature",
+    Intimidation= "Intimidation",
+    Performance= "Performance",
+    Sleight= "Sleight",
+    AnimalHandling= "AnimalHandling" //dead logic
+}
+export { Monstar, Ability, TreatsAndAction, Size,RegendaryAction,Attack,Skill }

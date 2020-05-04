@@ -1,4 +1,4 @@
-import { Monstar, Ability, TreatsAndAction, Size, RegendaryAction,Attack } from "./Monstar"
+import { Monstar, Ability, TreatsAndAction, Size, RegendaryAction, Attack, Skill } from "./Monstar"
 import * as fs from 'fs'
 const libxml = require("libxmljs");
 
@@ -36,7 +36,7 @@ class ScrapingMonsterJsonParser {
         const sence: string = monstarJson["Senses"]
         const language: string = monstarJson["Languages"]
         const challenges: string = monstarJson["Challenge"]
-        const skills: string = monstarJson["Skills"]
+        // const skills: string = monstarJson["Skills"]
 
         const STR = monstarJson.STR;
         const DEX = monstarJson.DEX;
@@ -53,7 +53,8 @@ class ScrapingMonsterJsonParser {
 
         const traits = this.parseTraitsAndAction(monstarJson.Traits)
         const actions = this.parseTraitsAndAction(monstarJson.Actions)
-
+        // const skills = this.parseCommaSepalatedValue(monstarJson["Skills"])
+        // console.log(Array.from(skills.keys()))
         const monstar = new Monstar()
         monstar.name = name
         monstar.size = size
@@ -66,9 +67,9 @@ class ScrapingMonsterJsonParser {
         monstar.sence = sence
         monstar.language = language
         monstar.challenges = challenges
-        monstar.skills = skills
+        // monstar.skills = skills
 
-        const savingThrows = this.parseSavingThrow(monstarJson["Saving Throws"])
+        const savingThrows = this.parseCommaSepalatedValue(monstarJson["Saving Throws"])
 
         monstar.STR = new Ability(STR, STR_mod, this.calcSavingThrow("STR", STR_mod, savingThrows)) //FIXME saving throw.
         monstar.DEX = new Ability(DEX, DEX_mod, this.calcSavingThrow("DEX", DEX_mod, savingThrows))
@@ -76,6 +77,27 @@ class ScrapingMonsterJsonParser {
         monstar.INT = new Ability(INT, INT_mod, this.calcSavingThrow("INT", INT_mod, savingThrows))
         monstar.WIS = new Ability(WIS, WIS_mod, this.calcSavingThrow("WIS", WIS_mod, savingThrows))
         monstar.CHA = new Ability(CHA, CHA_mod, this.calcSavingThrow("CHA", CHA_mod, savingThrows))
+
+        //parse skill.
+        const parsedSkill = this.parseCommaSepalatedValue(monstarJson["Skills"])
+        monstar.skills.set(Skill.Acrobatics, this.calcSkill(Skill.Acrobatics, monstar, parsedSkill))
+        monstar.skills.set(Skill.Arcana, this.calcSkill(Skill.Arcana, monstar, parsedSkill))
+        monstar.skills.set(Skill.Athletics, this.calcSkill(Skill.Athletics, monstar, parsedSkill))
+        monstar.skills.set(Skill.Deception, this.calcSkill(Skill.Deception, monstar, parsedSkill))
+        monstar.skills.set(Skill.History, this.calcSkill(Skill.History, monstar, parsedSkill))
+        monstar.skills.set(Skill.Insight, this.calcSkill(Skill.Insight, monstar, parsedSkill))
+        monstar.skills.set(Skill.Intimidation, this.calcSkill(Skill.Intimidation, monstar, parsedSkill))
+        monstar.skills.set(Skill.Investigation, this.calcSkill(Skill.Investigation, monstar, parsedSkill))
+        monstar.skills.set(Skill.Medicine, this.calcSkill(Skill.Medicine, monstar, parsedSkill))
+        monstar.skills.set(Skill.Nature, this.calcSkill(Skill.Nature, monstar, parsedSkill))
+        monstar.skills.set(Skill.Perception, this.calcSkill(Skill.Perception, monstar, parsedSkill))
+        monstar.skills.set(Skill.Performance, this.calcSkill(Skill.Performance, monstar, parsedSkill))
+        monstar.skills.set(Skill.Persuasion, this.calcSkill(Skill.Persuasion, monstar, parsedSkill))
+        monstar.skills.set(Skill.Religion, this.calcSkill(Skill.Religion, monstar, parsedSkill))
+        monstar.skills.set(Skill.Sleight, this.calcSkill(Skill.Sleight, monstar, parsedSkill))
+        monstar.skills.set(Skill.Stealth, this.calcSkill(Skill.Stealth, monstar, parsedSkill))
+        monstar.skills.set(Skill.Survival, this.calcSkill(Skill.Survival, monstar, parsedSkill))
+        monstar.skills.set(Skill.AnimalHandling, this.calcSkill(Skill.AnimalHandling, monstar, parsedSkill))
 
         traits.forEach(trait => {
             monstar.treats.push(trait)
@@ -93,9 +115,9 @@ class ScrapingMonsterJsonParser {
     private getSize(meta: string): Size {
         if (meta.indexOf("Small") >= 0) {
             return Size.Small
-        }else if (meta.indexOf("Tiny") >= 0) {
+        } else if (meta.indexOf("Tiny") >= 0) {
             return Size.Tiny
-        }else if (meta.indexOf("Medium") >= 0) {
+        } else if (meta.indexOf("Medium") >= 0) {
             return Size.Medium
         } else if (meta.indexOf("Large") >= 0) {
             return Size.Large
@@ -121,7 +143,7 @@ class ScrapingMonsterJsonParser {
     }
 
     //能力もしくはアクションを解析
-    private parseTraitsAndAction(content: string) : Array<TreatsAndAction>{
+    private parseTraitsAndAction(content: string): Array<TreatsAndAction> {
         const wrapperXML = `<wrapper>${content}</wrapper>`;
         var parser = new libxml.SaxParser();
 
@@ -167,26 +189,26 @@ class ScrapingMonsterJsonParser {
     }
 
     //能力もしくはアクションを解析
-    private parseRegendaryAction(content: string) : RegendaryAction | null {
+    private parseRegendaryAction(content: string): RegendaryAction | null {
 
-        if(!content){
+        if (!content) {
             return null
         }
 
-        const header = content.substring(content.indexOf("<p>")+3,content.indexOf("</p>"))
-        const body = content.substring(content.indexOf("</p>")+4)
+        const header = content.substring(content.indexOf("<p>") + 3, content.indexOf("</p>"))
+        const body = content.substring(content.indexOf("</p>") + 4)
         const actions = this.parseTraitsAndAction(body)
-        return new RegendaryAction(header,actions)
+        return new RegendaryAction(header, actions)
     }
 
-    private parseSavingThrow(value: string): Map<string, string> {
+    private parseCommaSepalatedValue(value: string): Map<string, string> {
         const retVal = new Map<string, string>()
         if (value) {
             const savingThrows = value.split(",")
             savingThrows.forEach(savingThrow => {
                 const kv = savingThrow.trim().split(" ")
                 retVal.set(kv[0], kv[1])
-                
+
             })
         }
         return retVal
@@ -196,20 +218,51 @@ class ScrapingMonsterJsonParser {
         return savingThrow.get(type) ? savingThrow.get(type) : mod
     }
 
-    private parseAttacks(actions : string) : Array<Attack>{
+    //Monstarには既に能力値修正が追加済みとする。
+    private calcSkill(skill: Skill, monstar: Monstar, skills: Map<string, string>): string {
+        const retVal = skills.get(skill.toString()) ? skills.get(skill.toString()) : this.calcAbilityOf(skill, monstar)
+        if (!retVal) {
+            throw new Error()
+        }
+        return retVal
+    }
+
+    private calcAbilityOf(skill: Skill, monstar: Monstar) {
+        if (skill === Skill.History) return monstar.INT.modifier
+        if (skill === Skill.Perception) return monstar.WIS.modifier
+        if (skill === Skill.Medicine) return monstar.WIS.modifier
+        if (skill === Skill.Religion) return monstar.INT.modifier
+        if (skill === Skill.Stealth) return monstar.DEX.modifier
+        if (skill === Skill.Persuasion) return monstar.WIS.modifier
+        if (skill === Skill.Insight) return monstar.WIS.modifier
+        if (skill === Skill.Deception) return monstar.CHA.modifier
+        if (skill === Skill.Arcana) return monstar.INT.modifier
+        if (skill === Skill.Athletics) return monstar.STR.modifier
+        if (skill === Skill.Acrobatics) return monstar.DEX.modifier
+        if (skill === Skill.Survival) return monstar.WIS.modifier
+        if (skill === Skill.Investigation) return monstar.INT.modifier
+        if (skill === Skill.Nature) return monstar.INT.modifier
+        if (skill === Skill.Intimidation) return monstar.CHA.modifier
+        if (skill === Skill.Performance) return monstar.CHA.modifier
+        if (skill === Skill.Sleight) return monstar.DEX.modifier
+        if (skill === Skill.AnimalHandling) return monstar.WIS.modifier
+        throw new Error('unreached')
+    }
+
+    private parseAttacks(actions: string): Array<Attack> {
         const regex = /<p><em><strong>(?<name>\w+\.)<\/strong><\/em> <em>(?<type>[\w| ]+Attack:<\/em>) (?<attackRole>[+-][0-9]+) to hit,[^<]+<em>Hit:<\/em>(?<damage>[^<]+)?<\/p>/g;
         const retVal = []
-        if(actions){
+        if (actions) {
             const matches = actions.matchAll(regex);
             for (const match of matches) {
                 if (match.groups) {
-                    const attack = new Attack(match.groups.name,match.groups.attackRole)
+                    const attack = new Attack(match.groups.name, match.groups.attackRole)
                     //ダメージの戦闘にある 10(1d6+4) の固定値部分と () を削除する
                     const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\)(?<rest>.+)/m
                     const parsed = match.groups.damage.match(damageRegex);
-                    if(parsed && parsed.groups){
+                    if (parsed && parsed.groups) {
                         attack.damageRole = `${parsed.groups.damage} ${parsed.groups.rest} `
-                    }else{
+                    } else {
                         attack.damageRole = match.groups.damage
                     }
                     retVal.push(attack)
@@ -218,6 +271,9 @@ class ScrapingMonsterJsonParser {
         }
         return retVal
     }
+
 }
+
+
 
 export { ScrapingMonsterJsonParser }

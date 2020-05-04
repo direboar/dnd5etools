@@ -1,5 +1,5 @@
 import { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource, ChatPallette, ContainerItem } from "../../utils/UdonariumCharacter"
-import { Monstar, Size, TreatsAndAction, Attack } from "./Monstar"
+import { Monstar, Size, TreatsAndAction, Attack, Skill } from "./Monstar"
 import { TranslateUtils } from "../../utils/TranslateUtils"
 
 class Monstar2UdonarimuCharacter {
@@ -21,7 +21,7 @@ class Monstar2UdonarimuCharacter {
         data.addDetailItem(new NormalResource("脅威度", monstar.challenges));
         data.addDetailItem(new NormalResource("種別", monstar.type));
         data.addDetailItem(new NormalResource("属性", monstar.alignment));
-        data.addDetailItem(new NoteResource("技能", this.formatForNote(monstar.skills)));
+        // data.addDetailItem(new NoteResource("技能", this.formatForNote(monstar.skills)));
         udonariumCharacter.addDetail(data)
 
         const abilityAndSavingThrow = new Detail("能力/セーブ")
@@ -47,24 +47,24 @@ class Monstar2UdonarimuCharacter {
         const skill = new Detail("技能判定")
         udonariumCharacter.addDetail(skill)
         //FIXME
-        skill.addDetailItem(new NormalResource("威圧", "+99"));
-        skill.addDetailItem(new NormalResource("医術", "+99"));
-        skill.addDetailItem(new NormalResource("運動", "+99"));
-        skill.addDetailItem(new NormalResource("隠密", "+99"));
-        skill.addDetailItem(new NormalResource("軽業", "+99"));
-        skill.addDetailItem(new NormalResource("看破", "+99"));
-        skill.addDetailItem(new NormalResource("芸能", "+99"));
-        skill.addDetailItem(new NormalResource("自然", "+99"));
-        skill.addDetailItem(new NormalResource("宗教", "+99"));
-        skill.addDetailItem(new NormalResource("生存", "+99"));
-        skill.addDetailItem(new NormalResource("説得", "+99"));
-        skill.addDetailItem(new NormalResource("捜査", "+99"));
-        skill.addDetailItem(new NormalResource("知覚", "+99"));
-        skill.addDetailItem(new NormalResource("手先の早業", "+99"));
-        skill.addDetailItem(new NormalResource("動物使い", "+99"));
-        skill.addDetailItem(new NormalResource("ペテン", "+99"));
-        skill.addDetailItem(new NormalResource("魔法学", "+99"));
-        skill.addDetailItem(new NormalResource("歴史", "+99"));
+        skill.addDetailItem(new NormalResource("〈威圧〉", monstar.getSkill(Skill.Intimidation)));//INTIMIDATION
+        skill.addDetailItem(new NormalResource("〈医術〉", monstar.getSkill(Skill.Medicine)));//MEDICINE
+        skill.addDetailItem(new NormalResource("〈運動〉", monstar.getSkill(Skill.Athletics)));//ATHLETICS
+        skill.addDetailItem(new NormalResource("〈隠密〉", monstar.getSkill(Skill.Stealth)));//STEALTH
+        skill.addDetailItem(new NormalResource("〈軽業〉", monstar.getSkill(Skill.Acrobatics)));//ACROBATICS
+        skill.addDetailItem(new NormalResource("〈看破〉", monstar.getSkill(Skill.Insight)));//INSIGHT
+        skill.addDetailItem(new NormalResource("〈芸能〉", monstar.getSkill(Skill.Performance)));//PERFORMANCE
+        skill.addDetailItem(new NormalResource("〈自然〉", monstar.getSkill(Skill.Nature)));//NATURE
+        skill.addDetailItem(new NormalResource("〈宗教〉", monstar.getSkill(Skill.Religion)));//RELIGION
+        skill.addDetailItem(new NormalResource("〈生存〉", monstar.getSkill(Skill.Survival)));//SURVIVAL
+        skill.addDetailItem(new NormalResource("〈説得〉", monstar.getSkill(Skill.Perception)));//PERSUASION
+        skill.addDetailItem(new NormalResource("〈捜査〉", monstar.getSkill(Skill.Investigation)));//INVESTIGATION
+        skill.addDetailItem(new NormalResource("〈知覚〉", monstar.getSkill(Skill.Perception)));//PERCEPTION
+        skill.addDetailItem(new NormalResource("〈手先の早業〉", monstar.getSkill(Skill.Sleight)));//Sleight
+        skill.addDetailItem(new NormalResource("〈動物使い〉", monstar.getSkill(Skill.AnimalHandling)));//ANIMAL HANDLING	
+        skill.addDetailItem(new NormalResource("〈ペテン〉", monstar.getSkill(Skill.Deception)));//DECEPTION
+        skill.addDetailItem(new NormalResource("〈魔法学〉", monstar.getSkill(Skill.Arcana)));//ARCANA
+        skill.addDetailItem(new NormalResource("〈歴史〉", monstar.getSkill(Skill.History)));//HISTORY
 
         const actionTreats = new Detail("アクション・特徴等")
         udonariumCharacter.addDetail(actionTreats)
@@ -128,14 +128,32 @@ class Monstar2UdonarimuCharacter {
 1d20+(({【魅力】}-10)/2) {name}の【魅力】判定！
      
 ▼技能判定
+1d20{〈威圧〉} {name}の〈威圧〉判定！
+1d20{〈医術〉} {name}の〈医術〉判定！
+1d20{〈運動〉} {name}の〈運動〉判定！
+1d20{〈隠密〉} {name}の〈隠密〉判定！
+1d20{〈軽業〉} {name}の〈軽業〉判定！
+1d20{〈看破〉} {name}の〈看破〉判定！
+1d20{〈芸能〉} {name}の〈芸能〉判定！
+1d20{〈自然〉} {name}の〈自然〉判定！
+1d20{〈宗教〉} {name}の〈宗教〉判定！
+1d20{〈生存〉} {name}の〈生存〉判定！
+1d20{〈説得〉} {name}の〈説得〉判定！
+1d20{〈捜査〉} {name}の〈捜査〉判定！
+1d20{〈知覚〉} {name}の〈知覚〉判定！
+1d20{〈手先の早業〉} {name}の〈手先の早業〉判定！
+1d20{〈動物使い〉} {name}の〈動物使い〉判定！
+1d20{〈ペテン〉} {name}の〈ペテン〉判定！
+1d20{〈魔法学〉} {name}の〈魔法学〉判定！
+1d20{〈歴史〉} {name}の〈歴史〉判定！
 
 ▼セーヴィング・スロー
-1d20+{【筋】セーヴ} {name}の【筋力】セーヴィング・スロー！
-1d20+{【敏】セーヴ} {name}の【敏捷力】セーヴィング・スロー！
-1d20+{【耐】セーヴ} {name}の【耐久力】セーヴィング・スロー！
-1d20+{【知】セーヴ} {name}の【知力】セーヴィング・スロー！
-1d20+{【判】セーヴ} {name}の【判断力】セーヴィング・スロー！
-1d20+{【魅】セーヴ} {name}の【魅力】セーヴィング・スロー！
+1d20{【筋】セーヴ} {name}の【筋力】セーヴィング・スロー！
+1d20{【敏】セーヴ} {name}の【敏捷力】セーヴィング・スロー！
+1d20{【耐】セーヴ} {name}の【耐久力】セーヴィング・スロー！
+1d20{【知】セーヴ} {name}の【知力】セーヴィング・スロー！
+1d20{【判】セーヴ} {name}の【判断力】セーヴィング・スロー！
+1d20{【魅】セーヴ} {name}の【魅力】セーヴィング・スロー！
 1d20<=10 {name}の死亡セーヴィング・スロー！
 
 ▼戦闘
@@ -144,7 +162,7 @@ class Monstar2UdonarimuCharacter {
             monstar.attacks.reduce((accumulator : string, attack) => {
                 return `${accumulator}
                 ▼${attack.name}
-1d20+${attack.attackRole}　{name}の${attack.name}攻撃！
+1d20${attack.attackRole}　{name}の${attack.name}攻撃！
 ${attack.damageRole}
 `
             },"")
