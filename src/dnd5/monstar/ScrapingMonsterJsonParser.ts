@@ -80,6 +80,7 @@ class ScrapingMonsterJsonParser {
 
         //parse skill.
         const parsedSkill = this.parseCommaSepalatedValue(monstarJson["Skills"])
+
         monstar.skills.set(Skill.Acrobatics, this.calcSkill(Skill.Acrobatics, monstar, parsedSkill))
         monstar.skills.set(Skill.Arcana, this.calcSkill(Skill.Arcana, monstar, parsedSkill))
         monstar.skills.set(Skill.Athletics, this.calcSkill(Skill.Athletics, monstar, parsedSkill))
@@ -206,9 +207,8 @@ class ScrapingMonsterJsonParser {
         if (value) {
             const savingThrows = value.split(",")
             savingThrows.forEach(savingThrow => {
-                const kv = savingThrow.trim().split(" ")
-                retVal.set(kv[0], kv[1])
-
+                const lastIndex = savingThrow.lastIndexOf(" ")
+                retVal.set(savingThrow.substring(0,lastIndex).trim(), savingThrow.substring(lastIndex).trim())
             })
         }
         return retVal
@@ -220,7 +220,8 @@ class ScrapingMonsterJsonParser {
 
     //Monstarには既に能力値修正が追加済みとする。
     private calcSkill(skill: Skill, monstar: Monstar, skills: Map<string, string>): string {
-        const retVal = skills.get(skill.toString()) ? skills.get(skill.toString()) : this.calcAbilityOf(skill, monstar)
+        const proficiedSkill = skills.get(skill.toString())
+        const retVal = proficiedSkill ? proficiedSkill : this.calcAbilityOf(skill, monstar)
         if (!retVal) {
             throw new Error()
         }
@@ -233,7 +234,7 @@ class ScrapingMonsterJsonParser {
         if (skill === Skill.Medicine) return monstar.WIS.modifier
         if (skill === Skill.Religion) return monstar.INT.modifier
         if (skill === Skill.Stealth) return monstar.DEX.modifier
-        if (skill === Skill.Persuasion) return monstar.WIS.modifier
+        if (skill === Skill.Persuasion) return monstar.CHA.modifier
         if (skill === Skill.Insight) return monstar.WIS.modifier
         if (skill === Skill.Deception) return monstar.CHA.modifier
         if (skill === Skill.Arcana) return monstar.INT.modifier
@@ -248,20 +249,24 @@ class ScrapingMonsterJsonParser {
         if (skill === Skill.AnimalHandling) return monstar.WIS.modifier
         throw new Error('unreached')
     }
-
-    private parseAttacks(actions: string): Array<Attack> {
-        const regex = /<p><em><strong>(?<name>\w+\.)<\/strong><\/em> <em>(?<type>[\w| ]+Attack:<\/em>) (?<attackRole>[+-][0-9]+) to hit,[^<]+<em>Hit:<\/em>(?<damage>[^<]+)?<\/p>/g;
+    parseAttacks(actions: string): Array<Attack> {
+// console.log(actions)        
+        const regex = /<p><em><strong>(?<name>[\w \.()]+\.)<\/strong><\/em> (<em>[\w| ]+Attack:<\/em>|<em>Melee or <em>Ranged .+ Attack:<\/em><\/em>) (?<attackRole>[+-][0-9]+) to hit[^<]+<em>Hit:<\/em>(?<damage>[^<]+)?<\/p>/g;
         const retVal = []
         if (actions) {
             const matches = actions.matchAll(regex);
             for (const match of matches) {
+// console.log(match)            
                 if (match.groups) {
                     const attack = new Attack(match.groups.name, match.groups.attackRole)
                     //ダメージの戦闘にある 10(1d6+4) の固定値部分と () を削除する
                     const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\)(?<rest>.+)/m
                     const parsed = match.groups.damage.match(damageRegex);
-                    if (parsed && parsed.groups) {
-                        attack.damageRole = `${parsed.groups.damage} ${parsed.groups.rest} `
+
+                    //ダメージに含まれる空白はダイスボットが認識しないので、空白を除去する
+                    if(parsed && parsed.groups){
+                        const damage = parsed.groups.damage.replace(/ +/g,"")
+                        attack.damageRole = `${damage} ${parsed.groups.rest} `
                     } else {
                         attack.damageRole = match.groups.damage
                     }

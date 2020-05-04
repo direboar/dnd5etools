@@ -57,7 +57,7 @@ class Monstar2UdonarimuCharacter {
         skill.addDetailItem(new NormalResource("〈自然〉", monstar.getSkill(Skill.Nature)));//NATURE
         skill.addDetailItem(new NormalResource("〈宗教〉", monstar.getSkill(Skill.Religion)));//RELIGION
         skill.addDetailItem(new NormalResource("〈生存〉", monstar.getSkill(Skill.Survival)));//SURVIVAL
-        skill.addDetailItem(new NormalResource("〈説得〉", monstar.getSkill(Skill.Perception)));//PERSUASION
+        skill.addDetailItem(new NormalResource("〈説得〉", monstar.getSkill(Skill.Persuasion)));//PERSUASION
         skill.addDetailItem(new NormalResource("〈捜査〉", monstar.getSkill(Skill.Investigation)));//INVESTIGATION
         skill.addDetailItem(new NormalResource("〈知覚〉", monstar.getSkill(Skill.Perception)));//PERCEPTION
         skill.addDetailItem(new NormalResource("〈手先の早業〉", monstar.getSkill(Skill.Sleight)));//Sleight
@@ -65,7 +65,7 @@ class Monstar2UdonarimuCharacter {
         skill.addDetailItem(new NormalResource("〈ペテン〉", monstar.getSkill(Skill.Deception)));//DECEPTION
         skill.addDetailItem(new NormalResource("〈魔法学〉", monstar.getSkill(Skill.Arcana)));//ARCANA
         skill.addDetailItem(new NormalResource("〈歴史〉", monstar.getSkill(Skill.History)));//HISTORY
-
+// console.log(`${monster.name} : ${} )
         const actionTreats = new Detail("アクション・特徴等")
         udonariumCharacter.addDetail(actionTreats)
 
@@ -177,7 +177,7 @@ ${attack.damageRole}
 
     private formatName(name: string): string {
         //見た目のため、名前の後ろに全角の空白を１０個つける
-        const fillspace = Math.ceil((15 - name.length) / 2)
+        const fillspace = Math.ceil((16 - name.length) / 2)
         let retVal = name
         for (let index = 0; index < fillspace; index++) {
             retVal += "　"

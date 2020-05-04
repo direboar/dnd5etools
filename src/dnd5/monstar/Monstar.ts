@@ -88,6 +88,7 @@ enum Size {
     Huge = 3,
     Gargantuan = 4,
 }
+
 enum Skill {
     History = "History",
     Perception = "Perception",
@@ -105,7 +106,7 @@ enum Skill {
     Nature= "Nature",
     Intimidation= "Intimidation",
     Performance= "Performance",
-    Sleight= "Sleight",
+    Sleight= "Sleight of Hand",
     AnimalHandling= "AnimalHandling" //dead logic
 }
 export { Monstar, Ability, TreatsAndAction, Size,RegendaryAction,Attack,Skill }
