@@ -260,13 +260,15 @@ class ScrapingMonsterJsonParser {
                 if (match.groups) {
                     const attack = new Attack(match.groups.name, match.groups.attackRole)
                     //ダメージの戦闘にある 10(1d6+4) の固定値部分と () を削除する
-                    const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\)(?<rest>.+)/m
+                    const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\) \w* damage( plus [0-9]+ \((?<extradamage>[0-9d+ ]+)\) \w* damage)?(?<rest>.+)/m
+                    // const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\) \w* damage(?<rest>.+)/m
+                    // const damageRegex = /[0-9]+ \w* \((?<damage>[0-9d+ ]+)\) damage( plus [0-9]+ \w* damage)?.(?<rest>.+)/m
                     const parsed = match.groups.damage.match(damageRegex);
-
                     //ダメージに含まれる空白はダイスボットが認識しないので、空白を除去する
                     if(parsed && parsed.groups){
                         const damage = parsed.groups.damage.replace(/ +/g,"")
-                        attack.damageRole = `${damage} ${parsed.groups.rest} `
+                        const extradamage = parsed.groups.extradamage ? parsed.groups.extradamage.replace(/ +/g,"") : null
+                        attack.damageRole = `${damage}${extradamage ? "+"+extradamage : ""} : ${match.groups.damage}` 
                     } else {
                         attack.damageRole = match.groups.damage
                     }
