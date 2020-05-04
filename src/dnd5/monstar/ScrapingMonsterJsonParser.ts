@@ -1,4 +1,4 @@
-import { Monstar, Ability, TreatsAndAction, Size, RegendaryAction } from "./Monstar"
+import { Monstar, Ability, TreatsAndAction, Size, RegendaryAction,Attack } from "./Monstar"
 import * as fs from 'fs'
 const libxml = require("libxmljs");
 
@@ -85,6 +85,8 @@ class ScrapingMonsterJsonParser {
         })
 
         monstar.regendaryAction = this.parseRegendaryAction(monstarJson["Legendary Actions"])
+        monstar.attacks = this.parseAttacks(monstarJson.Actions)
+
         return monstar
     }
 
@@ -192,6 +194,29 @@ class ScrapingMonsterJsonParser {
 
     private calcSavingThrow(type: string, mod: string, savingThrow: Map<string, string>) {
         return savingThrow.get(type) ? savingThrow.get(type) : mod
+    }
+
+    private parseAttacks(actions : string) : Array<Attack>{
+        const regex = /<p><em><strong>(?<name>\w+\.)<\/strong><\/em> <em>(?<type>[\w| ]+Attack:<\/em>) (?<attackRole>[+-][0-9]+) to hit,[^<]+<em>Hit:<\/em>(?<damage>[^<]+)?<\/p>/g;
+        const retVal = []
+        if(actions){
+            const matches = actions.matchAll(regex);
+            for (const match of matches) {
+                if (match.groups) {
+                    const attack = new Attack(match.groups.name,match.groups.attackRole)
+                    //ダメージの戦闘にある 10(1d6+4) の固定値部分と () を削除する
+                    const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\)(?<rest>.+)/m
+                    const parsed = match.groups.damage.match(damageRegex);
+                    if(parsed && parsed.groups){
+                        attack.damageRole = `${parsed.groups.damage} ${parsed.groups.rest} `
+                    }else{
+                        attack.damageRole = match.groups.damage
+                    }
+                    retVal.push(attack)
+                }
+            }
+        }
+        return retVal
     }
 }
 

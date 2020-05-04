@@ -14,11 +14,11 @@ class Main {
         const monstar2UdonarimuCharacter = new Monstar2UdonarimuCharacter()
         for (const monstar of monstars) {
             try {
-                if(monstar.name === "Adult Black Dragon"){
+                // if(monstar.name === "Adult Black Dragon"){
                 const udonariumCharacter = await monstar2UdonarimuCharacter.convert(monstar)
                 const zipCreator = new CharacterZipFlieCreator(udonariumCharacter, monstar.imageUrl, outdir)
                 await zipCreator.createZipFile()
-                }
+                // }
             } catch (error) {
                 console.error(error)
             }

@@ -26,6 +26,8 @@ class Monstar {
     public actions: Array<TreatsAndAction> = []
 
     public regendaryAction: RegendaryAction | null = null
+
+    public attacks : Array<Attack> = []
 }
 
 class Ability {
@@ -55,7 +57,17 @@ class RegendaryAction {
     }
     public header: string = ""
     public regendaryActionDetails: Array<TreatsAndAction> = []
+}
 
+class Attack {
+    public name : string = ""
+    public attackRole : string = ""
+    public damageRole : string = ""
+
+    constructor(name:string,attackRole:string){
+        this.name = name
+        this.attackRole = attackRole
+    }
 }
 
 enum Size {
@@ -67,4 +79,4 @@ enum Size {
     Gargantuan = 4,
 }
 
-export { Monstar, Ability, TreatsAndAction, Size,RegendaryAction }
+export { Monstar, Ability, TreatsAndAction, Size,RegendaryAction,Attack }
