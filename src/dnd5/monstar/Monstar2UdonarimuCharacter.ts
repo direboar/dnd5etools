@@ -1,6 +1,7 @@
 import { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource, ChatPallette, ContainerItem } from "../../utils/UdonariumCharacter"
 import { Monstar, Size, TreatsAndAction, Attack, Skill } from "./Monstar"
 import { TranslateUtils } from "../../utils/TranslateUtils"
+import { BasicRule } from "./BasicRule"
 
 class Monstar2UdonarimuCharacter {
 
@@ -65,7 +66,7 @@ class Monstar2UdonarimuCharacter {
         skill.addDetailItem(new NormalResource("〈ペテン〉", monstar.getSkill(Skill.Deception)));//DECEPTION
         skill.addDetailItem(new NormalResource("〈魔法学〉", monstar.getSkill(Skill.Arcana)));//ARCANA
         skill.addDetailItem(new NormalResource("〈歴史〉", monstar.getSkill(Skill.History)));//HISTORY
-// console.log(`${monster.name} : ${} )
+        // console.log(`${monster.name} : ${} )
         const actionTreats = new Detail("アクション・特徴等")
         udonariumCharacter.addDetail(actionTreats)
 
@@ -75,7 +76,7 @@ class Monstar2UdonarimuCharacter {
             const treatHeader = new ContainerItem(trait.name);
             traits.addDetailItem(treatHeader)
             const text = this.formatActionTreatText(trait)
-            const translated = await this.translate(text)
+            const translated = await this.translate(monstar,text)
             treatHeader.addDetailItem(new NoteResource("原文", text))
             treatHeader.addDetailItem(new NoteResource("訳", translated))
         }
@@ -86,7 +87,7 @@ class Monstar2UdonarimuCharacter {
             const actionHeader = new ContainerItem(action.name);
             actions.addDetailItem(actionHeader)
             const text = this.formatActionTreatText(action)
-            const translated = await this.translate(text)
+            const translated = await this.translate(monstar,text)
             actionHeader.addDetailItem(new NoteResource("原文", text))
             actionHeader.addDetailItem(new NoteResource("訳", translated))
         }
@@ -98,7 +99,7 @@ class Monstar2UdonarimuCharacter {
             const regendaryHeader = new ContainerItem("レジェンダリー・アクション");
             regendaryAction.addDetailItem(regendaryHeader)
 
-            const translated = await this.translate(monstar.regendaryAction.header)
+            const translated = await this.translate(monstar,monstar.regendaryAction.header)
             regendaryHeader.addDetailItem(new NoteResource("原文", monstar.regendaryAction.header))
             regendaryHeader.addDetailItem(new NoteResource("訳", translated))
 
@@ -106,7 +107,7 @@ class Monstar2UdonarimuCharacter {
                 const actionHeader = new ContainerItem(action.name);
                 regendaryAction.addDetailItem(actionHeader)
                 const text = this.formatActionTreatText(action)
-                const translated = await this.translate(text)
+                const translated = await this.translate(monstar,text)
                 actionHeader.addDetailItem(new NoteResource("原文", text))
                 actionHeader.addDetailItem(new NoteResource("訳", translated))
             }
@@ -159,13 +160,13 @@ class Monstar2UdonarimuCharacter {
 ▼戦闘
 1d20+(({【敏捷力】}-10)/2)  {name}のイニシアチブ判定！
 ` +
-            monstar.attacks.reduce((accumulator : string, attack) => {
+            monstar.attacks.reduce((accumulator: string, attack) => {
                 return `${accumulator}
                 ▼${attack.name}
 1d20${attack.attackRole}　{name}の${attack.name}攻撃！
 ${attack.damageRole}
 `
-            },"")
+            }, "")
     }
     private formatForNote(text: string) {
         if (text) {
@@ -196,9 +197,13 @@ ${attack.damageRole}
         return ret
     }
 
-    private async translate(text: string): Promise<string> {
-        const ret = await this.translateUtils.translate(text)
-        return ret
+    private async translate(monstar: Monstar, text: string): Promise<string> {
+        if (BasicRule.contains(monstar.name)) {
+console.log(monstar.name)            
+            return await this.translateUtils.translate(text)
+        }else{
+            return "Basicルール対象外のため翻訳データは掲載しません"
+        }
     }
 }
 

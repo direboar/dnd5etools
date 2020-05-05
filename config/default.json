@@ -1,5 +1,6 @@
 {
     "translate" : {
-        "enable" : false
+        "enable" : false,
+        "basicRuleFilter" : true
     }
 }

@@ -1,0 +1,169 @@
+Awakened shrub
+Baboon
+Badger
+Bat
+Cat
+Commoner
+Crab
+Deer
+Eagle
+Frog
+Giant fire beetle
+Goat
+Hawk
+Hyena
+Jackal
+Lizard
+Octopus
+Owl
+Quipper
+Rat
+Raven
+Scorpion
+Sea horse
+Spider
+Vulture
+Weasel
+Bandit
+Blood hawk
+Camel
+Cultist
+Flying snake
+Giant crab
+Giant rat
+Giant weasel
+Guard
+Kobold
+Mastiff
+Merfolk
+Mule
+Poisonous snake
+Pony
+Stirge
+Twig blight
+Acolyte
+Axe beak
+Blink dog
+Boar
+Constrictor snake
+Draft horse
+Elk
+Flying sword
+Giant badger
+Giant bat
+Giant centipede
+Giant frog
+Giant lizard
+Giant owl
+Giant poisonous snake
+Giant wolf spider
+Goblin
+Panther
+Pteranodon
+Riding horse
+Skeleton
+Swarm of bats
+Swarm of rats
+Swarm of ravens
+Wolf
+Zombie
+Ape
+Black bear
+Cockatrice
+Crocodile
+Giant goat
+Giant sea horse
+Giant wasp
+Gnoll
+Hobgoblin
+Lizardfolk
+Orc
+Reef shark
+Satyr
+Swarm of insects
+Thug
+Warhorse
+Worg
+Animated armor
+Brown bear
+Bugbear
+Death dog
+Dire wolf
+Ghoul
+Giant eagle
+Giant hyena
+Giant octopus
+Giant spider
+Giant toad
+Giant vulture
+Harpy
+Hippogriff
+Lion
+Swarm of quippers
+Tiger
+Allosaurus
+Awakened tree
+Berserker
+Centaur
+Gargoyle
+Giant boar
+Giant constrictor snake
+Giant elk
+Grick
+Griffon
+Hunter shark
+Nothic
+Ochre jelly
+Ogre
+Pegasus
+Plesiosaurus
+Polar bear
+Priest
+Rhinoceros
+Saber-toothed tiger
+Swarm of poisonous snakes
+Ankylosaurus
+Basilisk
+Doppelganger
+Giant scorpion
+Hell hound
+Killer whale
+Knight
+Manticore
+Minotaur
+Mummy
+Owlbear
+Phase spider
+Spectator
+Werewolf
+Wight
+Winter wolf
+Yeti
+Banshee
+Elephant
+Flameskull
+Ghost
+Air elemental
+Earth elemental
+Fire elemental
+Flesh golem
+Giant crocodile
+Giant shark
+Hill giant
+Triceratops
+Troll
+Water elemental
+Chimera
+Cyclops
+Mage
+Mammoth
+Medusa
+Wyvern
+Giant ape
+Frost giant
+Hydra
+Tyrannosaurus rex
+Young green dragon
+Fire giant
+Stone golem
+Adult red dragon
