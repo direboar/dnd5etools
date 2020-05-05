@@ -103,4 +103,71 @@ test('testParseAttack', () => {
     expect(ret[0].attackRole).toBe('+2')
     expect(ret[0].damageRole).toBe('1d6 :  3 (1d6) bludgeoning damage, 4 (1d8) bludgeoning damage if wielded with two hands, or 6 (1d8 + 2) bludgeoning damage with shillelagh.')
 
+    //djinni
+    text = "<p><em><strong>Multiattack.</strong></em> The djinni makes three scimitar attacks. </p><p><em><strong>Scimitar.</strong></em> <em>Melee Weapon Attack:</em> +9 to hit, reach 5 ft., one target. <em>Hit:</em> 12 (2d6 + 5) slashing damage plus 3 (1d6) lightning or thunder damage (djinni's choice). </p><p><em><strong>Create Whirlwind.</strong></em> A 5-foot-radius, 30-foot-tall cylinder of swirling air magically forms on a point the djinni can see within 120 feet of it. The whirlwind lasts as long as the djinni maintains concentration (as if concentrating on a spell). Any creature but the djinni that enters the whirlwind must succeed on a DC 18 Strength saving throw or be restrained by it. The djinni can move the whirlwind up to 60 feet as an action, and creatures restrained by the whirlwind move with it. The whirlwind ends if the djinni loses sight of it.</p><p>A creature can use its action to free a creature restrained by the whirlwind, including itself, by succeeding on a DC 18 Strength check. If the check succeeds, the creature is no longer restrained and moves to the nearest space outside the whirlwind.</p>"
+    ret = parser.parseAttacks(text)
+    expect(ret.length).toBe(1)
+    expect(ret[0].name).toBe('Scimitar.')
+    expect(ret[0].attackRole).toBe('+9')
+    expect(ret[0].damageRole).toBe("2d6+5+1d6 :  12 (2d6 + 5) slashing damage plus 3 (1d6) lightning or thunder damage (djinni's choice). ")
+
+    //TODO 以下パースできない、、
+    //will-owisp
+    text = "<p><em><strong>Shock.</strong></em> Melee Spell Attack: +4 to hit, reach 5 ft., one creature. <em>Hit:</em> 9 (2d8) lightning damage. </p><p><em><strong>Invisibility.</strong></em> The will-o'-wisp and its light magically become invisible until it attacks or uses its Consume Life, or until its concentration ends (as if concentrating on a spell).</p>"
+    ret = parser.parseAttacks(text)
+    expect(ret.length).toBe(1)
+    expect(ret[0].name).toBe('Shock.')
+    expect(ret[0].attackRole).toBe('+4')
+    expect(ret[0].damageRole).toBe("2d8 :  9 (2d8) lightning damage. ")
+//archmage
+    text = "<p><em><strong>Dagger.</strong></em> <em>Melee or <em>Ranged Weapon Attack:</em></em> +6 to hit, reach 5 ft. or range 20/60 ft., one target. <em>Hit:</em> 4 (1d4 + 2) piercing damage.</p>"
+    ret = parser.parseAttacks(text)
+    // console.log(ret)
+    expect(ret.length).toBe(1)
+    expect(ret[0].name).toBe('Dagger.')
+    expect(ret[0].attackRole).toBe('+6')
+    expect(ret[0].damageRole).toBe("1d4+2 :  4 (1d4 + 2) piercing damage.")
+//Bugbear    
+    text = "<p><em><strong>Morningstar.</strong></em> <em>Melee Weapon Attack:</em> +4 to hit, reach 5 ft., one target. <em>Hit:</em> 11 (2d8 + 2) piercing damage. </p><p><em><strong>Javelin.</strong></em> <em>Melee or Ranged Weapon Attack:</em> +4 to hit, reach 5 ft. or range 30/120 ft., one target. <em>Hit:</em> 9 (2d6 + 2) piercing damage in melee or 5 (1d6 + 2) piercing damage at range.</p>"
+    ret = parser.parseAttacks(text)
+    // console.log(ret)
+    expect(ret.length).toBe(2)
+    expect(ret[0].name).toBe('Morningstar.')
+    expect(ret[0].attackRole).toBe('+4')
+    expect(ret[0].damageRole).toBe("2d8+2 :  11 (2d8 + 2) piercing damage. ")
+    expect(ret[1].name).toBe('Javelin.')
+    expect(ret[1].attackRole).toBe('+4')
+    expect(ret[1].damageRole).toBe("2d6+2 :  9 (2d6 + 2) piercing damage in melee or 5 (1d6 + 2) piercing damage at range.")
+
+    //drow error.
+    // text = "<p><em><strong>Shortsword.</strong></em> <em>Melee Weapon Attack:</em> +4 to hit, reach 5 ft., one target. <em>Hit:</em> 5 (1d6 + 2) piercing damage.</p><p><em><strong>Hand Crossbow.</strong></em> <em>Ranged Weapon Attack:</em> +4 to hit, range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage.</p>"
+    text = "<p><em><strong>Shortsword.</strong></em> <em>Melee Weapon Attack:</em> +4 to hit, reach 5 ft., one target. <em>Hit:</em> 5 (1d6 + 2) piercing damage.</p><p><em><strong>Hand Crossbow.</strong></em> <em>Ranged Weapon Attack:</em> +4 to hit, range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the target is also unconscious while poisoned in this way. The target wakes up if it takes damage or if another creature takes an action to shake it awake.</p>"
+    ret = parser.parseAttacks(text)
+    expect(ret.length).toBe(2)
+    expect(ret[0].name).toBe('Shortsword.')
+    expect(ret[0].attackRole).toBe('+4')
+    expect(ret[0].damageRole).toBe("1d6+2 :  5 (1d6 + 2) piercing damage.")
+    expect(ret[1].name).toBe('Hand Crossbow.')
+    expect(ret[1].attackRole).toBe('+4')
+    expect(ret[1].damageRole).toBe("1d6+2 :  5 (1d6 + 2) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the target is also unconscious while poisoned in this way. The target wakes up if it takes damage or if another creature takes an action to shake it awake.")
+    
+    text = "<p><em><strong>Claws.</strong></em>(Hag Form Only). <em>Melee Weapon Attack:</em> +7 to hit, reach 5 ft., one target. <em>Hit:</em> 13 (2d8 + 4) slashing damage. </p><p><em><strong>Change Shape.</strong></em> The hag magically polymorphs into a Small or Medium female humanoid, or back into her true form. Her statistics are the same in each form. Any equipment she is wearing or carrying isn't transformed. She reverts to her true form if she dies. </p><p><em><strong>Etherealness.</strong></em> The hag magically enters the Ethereal Plane from the Material Plane, or vice versa. To do so, the hag must have a heartstone in her possession. </p><p><em><strong>Nightmare Haunting (1/Day).</strong></em> While on the Ethereal Plane, the hag magically touches a sleeping humanoid on the Material Plane. A protection from evil and good spell cast on the target prevents this contact, as does a magic circle. As long as the contact persists, the target has dreadful visions. If these visions last for at least 1 hour, the target gains no benefit from its rest, and its hit point maximum is reduced by 5 (1d10). If this effect reduces the target's hit point maximum to 0, the target dies, and if the target was evil, its soul is trapped in the hag's soul bag. The reduction to the target's hit point maximum lasts until removed by the greater restoration spell or similar magic.</p>"
+    // text = "<p><em><strong>Claws.</strong></em>(Hag Form Only). <em>Melee Weapon Attack:</em> +7 to hit, reach 5 ft., one target. <em>Hit:</em> 13 (2d8 + 4) slashing damage. </p><p><em><strong>Change Shape.</strong></em> The hag magically polymorphs into a Small or Medium female humanoid, or back into her true form. Her statistics are the same in each form. Any equipment she is wearing or carrying isn't transformed. She reverts to her true form if she dies. </p><p><em><strong>Etherealness.</strong></em> The hag magically enters the Ethereal Plane from the Material Plane, or vice versa. To do so, the hag must have a heartstone in her possession. </p><p><em><strong>Nightmare Haunting (1/Day).</strong></em> While on the Ethereal Plane, the hag magically touches a sleeping humanoid on the Material Plane. A protection from evil and good spell cast on the target prevents this contact, as does a magic circle. As long as the contact persists, the target has dreadful visions. If these visions last for at least 1 hour, the target gains no benefit from its rest, and its hit point maximum is reduced by 5 (1d10). If this effect reduces the target's hit point maximum to 0, the target dies, and if the target was evil, its soul is trapped in the hag's soul bag. The reduction to the target's hit point maximum lasts until removed by the greater restoration spell or similar magic.</p>"
+    ret = parser.parseAttacks(text)
+    expect(ret.length).toBe(1)
+    expect(ret[0].name).toBe('Claws.')
+    expect(ret[0].attackRole).toBe('+7')
+    expect(ret[0].damageRole).toBe("2d8+4 :  13 (2d8 + 4) slashing damage. ")
+    // console.log(ret)
+    
 })
+// "Actions": "<p><em><strong>Shortsword.</strong></em> <em>Melee Weapon Attack:</em> +4 to hit, reach 5 ft., one target. <em>Hit:</em> 5 (1d6 + 2) piercing damage.</p><p><em><strong>Hand Crossbow.</strong></em> <em>Ranged Weapon Attack:</em> +4 to hit, range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the target is also unconscious while poisoned in this way. The target wakes up if it takes damage or if another creature takes an action to shake it awake.</p>",
+
+// test('x',()=>{
+//     const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\)[\w ]* damage( plus [0-9]+ \((?<extradamage>[0-9d+ ]+)\)[\w ]* damage)?(?<rest>.+)/m
+//     // const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\) \w* damage( plus [0-9]+ \((?<extradamage>[0-9d+ ]+)\) \w* damage)?(?<rest>.+)/m
+//     const parsed = "<p><em><strong>Shortsword.</strong></em> <em>Melee Weapon Attack:</em> +4 to hit, reach 5 ft., one target. <em>Hit:</em> 5 (1d6 + 2) piercing damage.</p><p><em><strong>Hand Crossbow.</strong></em> <em>Ranged Weapon Attack:</em> +4 to hit, range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the target is also unconscious while poisoned in this way. The target wakes up if it takes damage or if another creature takes an action to shake it awake.</p>".match(damageRegex);
+//     console.log(parsed)
+    
+// })    
+// text = "<p><em><strong>Shortsword.</strong></em> <em>Melee Weapon Attack:</em> +4 to hit, reach 5 ft., one target. <em>Hit:</em> 5 (1d6 + 2) piercing damage.</p><p><em><strong>Hand Crossbow.</strong></em> <em>Ranged Weapon Attack:</em> +4 to hit, range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the target is also unconscious while poisoned in this way. The target wakes up if it takes damage or if another creature takes an action to shake it awake.</p>"

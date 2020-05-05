@@ -249,10 +249,13 @@ class ScrapingMonsterJsonParser {
         if (skill === Skill.AnimalHandling) return monstar.WIS.modifier
         throw new Error('unreached')
     }
+    // <p><em><strong>Hand Crossbow.</strong></em> <em>Ranged Weapon Attack:</em> +4 to hit, range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the target is also unconscious while poisoned in this way. The target wakes up if it takes damage or if another creature takes an action to shake it awake.</p>    
+    //Hit: 5 (1d6 + 2) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the target is also unconscious while poisoned in this way. The target wakes up if it takes damage or if another creature takes an action to shake it awake.
     parseAttacks(actions: string): Array<Attack> {
-// console.log(actions)        
-        const regex = /<p><em><strong>(?<name>[\w \.()]+\.)<\/strong><\/em> (<em>[\w| ]+Attack:<\/em>|<em>Melee or <em>Ranged .+ Attack:<\/em><\/em>) (?<attackRole>[+-][0-9]+) to hit[^<]+<em>Hit:<\/em>(?<damage>[^<]+)?<\/p>/g;
-        const retVal = []
+// console.log(actions)        (Hag Form Only). 
+    // const regex = /<p><em><strong>(?<name>[\w \.()]+\.)<\/strong><\/em> ((<em>)?[\w| ]+Attack:(<\/em>)?|(<em>)?Melee or <em>Ranged .+ Attack:<\/em>(<\/em>)?) (?<attackRole>[+-][0-9]+) to hit[^<]+(<em>)?Hit:(<\/em>)?(?<damage>[^<]+)?<\/p>/g;
+    const regex = /<p><em><strong>(?<name>[\w \.()]+\.)<\/strong><\/em>(\([\w ]+\).)? ((<em>)?[\w| ]+Attack:(<\/em>)?|(<em>)?Melee or <em>Ranged .+ Attack:<\/em>(<\/em>)?) (?<attackRole>[+-][0-9]+) to hit[^<]+(<em>)?Hit:(<\/em>)?(?<damage>[^<]+)?<\/p>/g;
+    const retVal = []
         if (actions) {
             const matches = actions.matchAll(regex);
             for (const match of matches) {
@@ -260,7 +263,8 @@ class ScrapingMonsterJsonParser {
                 if (match.groups) {
                     const attack = new Attack(match.groups.name, match.groups.attackRole)
                     //ダメージの戦闘にある 10(1d6+4) の固定値部分と () を削除する
-                    const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\) \w* damage( plus [0-9]+ \((?<extradamage>[0-9d+ ]+)\) \w* damage)?(?<rest>.+)/m
+                    const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\)[\w ]* damage( plus [0-9]+ \((?<extradamage>[0-9d+ ]+)\)[\w ]* damage)?(?<rest>.+)/m
+                    // const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\) \w* damage( plus [0-9]+ \((?<extradamage>[0-9d+ ]+)\) \w* damage)?(?<rest>.+)/m
                     // const damageRegex = /[0-9]+ \((?<damage>[0-9d+ ]+)\) \w* damage(?<rest>.+)/m
                     // const damageRegex = /[0-9]+ \w* \((?<damage>[0-9d+ ]+)\) damage( plus [0-9]+ \w* damage)?.(?<rest>.+)/m
                     const parsed = match.groups.damage.match(damageRegex);
