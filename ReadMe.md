@@ -42,8 +42,8 @@ npm run start
 詳細画面の「特徴」「アクション」「レジェンダリーアクション」については、原文と対となるように日本語訳をつけることが可能です。  
 日本語訳を行う場合の手順を説明します。  
 
-#### 日本語訳APIの作成
-日本語訳を行うためのAPIを、Google Apps Script上で作成します。  
+#### 翻訳APIの作成
+翻訳を行うためのAPIを、Google Apps Script上で作成します。  
 Google Apps ScriptへのAPI作成手順は、[Qiita](https://t.co/yq5xXAislm)記事などを参考にしてください。  
 作成するスクリプトの実装は以下の通りです。  
 
