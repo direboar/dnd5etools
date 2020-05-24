@@ -11,6 +11,9 @@ class Monstar2UdonarimuCharacter {
         const udonariumCharacter = new UdonariumCharacter();
         udonariumCharacter.common = new Common(this.formatName(monstar.name), monstar.size)
 
+        //画像をImageで取得する場合。
+        udonariumCharacter.imageUrl = monstar.imageUrl
+
         const data = new Detail("データ")
         data.addDetailItem(new NormalResource("ヒット・ポイント", monstar.hitPoint.toString()));
         data.addDetailItem(new NormalResource("イニシアチブ", monstar.DEX.modifier));
@@ -22,7 +25,6 @@ class Monstar2UdonarimuCharacter {
         data.addDetailItem(new NormalResource("脅威度", monstar.challenges));
         data.addDetailItem(new NormalResource("種別", monstar.type));
         data.addDetailItem(new NormalResource("属性", monstar.alignment));
-        // data.addDetailItem(new NoteResource("技能", this.formatForNote(monstar.skills)));
         udonariumCharacter.addDetail(data)
 
         const abilityAndSavingThrow = new Detail("能力/セーブ")
@@ -199,7 +201,6 @@ ${attack.damageRole}
 
     private async translate(monstar: Monstar, text: string): Promise<string> {
         if (BasicRule.contains(monstar.name)) {
-console.log(monstar.name)            
             return await this.translateUtils.translate(text)
         }else{
             return "Basicルール対象外のため翻訳データは掲載しません"

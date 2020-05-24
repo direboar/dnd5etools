@@ -1,5 +1,5 @@
 
-import { UdonariumCharacter, Common, Detail, DetailItem, NormalResource, NoteResource, NumberResource, ChatPallette } from "./UdonariumCharacter"
+import { UdonariumCharacter, Common, Detail, ChatPallette } from "./UdonariumCharacter"
 const libxml = require("libxmljs");
 
 class UdonariumCharacter2XML {
@@ -29,9 +29,12 @@ class UdonariumCharacter2XML {
 
     private createImageNode(parent: any, character: UdonariumCharacter): any {
         const node = parent.node("data").attr({ name: "image" });
-        const imageNode = node.node("data").attr({name : "imageIdentifier", type: "image"})
         if(character.imageHashSHA256){
+            const imageNode = node.node("data").attr({name : "imageIdentifier", type: "image"})
             imageNode.text(character.imageHashSHA256)
+        }else if(character.imageUrl){
+            const imageNode = node.node("data").attr({name : "imageIdentifier", type: "image"})
+            imageNode.text(character.imageUrl)
         }
         return node;
     }

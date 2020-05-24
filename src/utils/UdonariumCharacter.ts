@@ -3,6 +3,7 @@
 class UdonariumCharacter {
     public common: Common = new Common()
     public imageHashSHA256: string | null = null
+    public imageUrl : string | null = null
     public details: Array<Detail> = []
     public chatpallette: ChatPallette | null = null
 
