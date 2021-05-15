@@ -15,7 +15,7 @@ class Monstar2UdonarimuCharacter {
         udonariumCharacter.imageUrl = monstar.imageUrl
 
         const data = new Detail("データ")
-        data.addDetailItem(new NormalResource("ヒット・ポイント", monstar.hitPoint.toString()));
+        data.addDetailItem(new NumberResource("ヒット・ポイント", monstar.hitPoint, monstar.hitPoint));
         data.addDetailItem(new NormalResource("イニシアチブ", monstar.DEX.modifier));
         data.addDetailItem(new NormalResource("AC", monstar.AC.toString()));
         data.addDetailItem(new NormalResource("サイズ", Size[monstar.size].toString()));
