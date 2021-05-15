@@ -25,6 +25,18 @@ class Monstar2UdonarimuCharacter {
         data.addDetailItem(new NormalResource("脅威度", monstar.challenges));
         data.addDetailItem(new NormalResource("種別", monstar.type));
         data.addDetailItem(new NormalResource("属性", monstar.alignment));
+        if (monstar.damageVulnerabilities) {
+            data.addDetailItem(new NoteResource("脆弱性", monstar.damageVulnerabilities));
+        }
+        if (monstar.damageResistances) {
+            data.addDetailItem(new NoteResource("抵抗", monstar.damageResistances));
+        }
+        if (monstar.damageImmunities) {
+            data.addDetailItem(new NoteResource("ダメージ完全耐性", monstar.damageImmunities));
+        }
+        if (monstar.conditionImmunities) {
+            data.addDetailItem(new NoteResource("状態完全耐性", monstar.conditionImmunities));
+        }
         udonariumCharacter.addDetail(data)
 
         const abilityAndSavingThrow = new Detail("能力/セーブ")
@@ -78,7 +90,7 @@ class Monstar2UdonarimuCharacter {
             const treatHeader = new ContainerItem(trait.name);
             traits.addDetailItem(treatHeader)
             const text = this.formatActionTreatText(trait)
-            const translated = await this.translate(monstar,text)
+            const translated = await this.translate(monstar, text)
             treatHeader.addDetailItem(new NoteResource("原文", text))
             treatHeader.addDetailItem(new NoteResource("訳", translated))
         }
@@ -89,7 +101,7 @@ class Monstar2UdonarimuCharacter {
             const actionHeader = new ContainerItem(action.name);
             actions.addDetailItem(actionHeader)
             const text = this.formatActionTreatText(action)
-            const translated = await this.translate(monstar,text)
+            const translated = await this.translate(monstar, text)
             actionHeader.addDetailItem(new NoteResource("原文", text))
             actionHeader.addDetailItem(new NoteResource("訳", translated))
         }
@@ -101,7 +113,7 @@ class Monstar2UdonarimuCharacter {
             const regendaryHeader = new ContainerItem("レジェンダリー・アクション");
             regendaryAction.addDetailItem(regendaryHeader)
 
-            const translated = await this.translate(monstar,monstar.regendaryAction.header)
+            const translated = await this.translate(monstar, monstar.regendaryAction.header)
             regendaryHeader.addDetailItem(new NoteResource("原文", monstar.regendaryAction.header))
             regendaryHeader.addDetailItem(new NoteResource("訳", translated))
 
@@ -109,7 +121,7 @@ class Monstar2UdonarimuCharacter {
                 const actionHeader = new ContainerItem(action.name);
                 regendaryAction.addDetailItem(actionHeader)
                 const text = this.formatActionTreatText(action)
-                const translated = await this.translate(monstar,text)
+                const translated = await this.translate(monstar, text)
                 actionHeader.addDetailItem(new NoteResource("原文", text))
                 actionHeader.addDetailItem(new NoteResource("訳", translated))
             }
@@ -202,7 +214,7 @@ ${attack.damageRole}
     private async translate(monstar: Monstar, text: string): Promise<string> {
         if (BasicRule.contains(monstar.name)) {
             return await this.translateUtils.translate(text)
-        }else{
+        } else {
             return "Basicルール対象外のため翻訳データは掲載しません"
         }
     }

@@ -12,6 +12,10 @@ class Monstar {
     public challenges: string = ""
     public skills : Map<Skill,string> = new Map()
     // public skills : string = ""
+    public damageVulnerabilities = ""
+    public damageResistances = ""
+    public damageImmunities = ""
+    public conditionImmunities = ""
 
     public hitPoint: Number = 0
     public imageUrl: string = ""

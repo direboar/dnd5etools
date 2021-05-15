@@ -36,6 +36,11 @@ class ScrapingMonsterJsonParser {
         const sence: string = monstarJson["Senses"]
         const language: string = monstarJson["Languages"]
         const challenges: string = monstarJson["Challenge"]
+
+        const damageVulnerabilities: string = monstarJson["Damage Vulnerabilities"]
+        const damageResistances: string = monstarJson["Damage Resistances"]
+        const damageImmunities: string = monstarJson["Damage Immunities"]
+        const conditionImmunities: string = monstarJson["Condition Immunities"]
         // const skills: string = monstarJson["Skills"]
 
         const STR = monstarJson.STR;
@@ -67,6 +72,10 @@ class ScrapingMonsterJsonParser {
         monstar.sence = sence
         monstar.language = language
         monstar.challenges = challenges
+        monstar.damageVulnerabilities = damageVulnerabilities
+        monstar.damageResistances = damageResistances
+        monstar.damageImmunities = damageImmunities
+        monstar.conditionImmunities = conditionImmunities
         // monstar.skills = skills
 
         const savingThrows = this.parseCommaSepalatedValue(monstarJson["Saving Throws"])
